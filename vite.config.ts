@@ -1,27 +1,17 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import { componentTagger } from "lovable-tagger";
+import { defineConfig } from 'vite';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: "/LVCOPY/",
+export default defineConfig({
   build: {
-    outDir: "dist",
-    assetsDir: "assets",
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        assetFileNames: '[name]-[hash][extname]',
+      },
+    },
   },
   server: {
-    host: "::",
-    port: 8080,
-    hmr: {
-      overlay: false,
+    headers: {
+      'Content-Type': 'application/javascript',
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
-  },
-}))
+});
