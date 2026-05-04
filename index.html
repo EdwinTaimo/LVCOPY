@@ -16,6 +16,11 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
+    <script type="module">
+      import("/LVCOPY/src/main.tsx").catch((err) => {
+        console.error("Failed to load module:", err);
+        document.body.innerHTML = "<h1>Erro ao carregar aplicação</h1>";
+      });
+    </script>
   </body>
 </html>
